@@ -1,10 +1,10 @@
-# magazine_bot, alpha version
-Telegram bot developed by KM-43 TEAM: Bogdan Ignatyev, Bogdan Gorbatenko, Sanya Sahatskiy, Olga Vepreva, Julia Rudenko
+# magazine_bot - alpha version
+Telegram bot developed by KM-43 TEAM: Bogdan Ignatyev, Bogdan Gorbatenko, Sanya Sahatskiy, Olga Vepreva, Julia Rudenko<br />
 Bot can track prices in online shops
-#Usage @magazine_bot - in Telegram
-/add URL - add track link
+##Usage @magazine_bot - in Telegram
+/add URL - add track link<br />
 /list - shows all track links
-#About
+##About
 Consists of two parts:
-BlackSatan/magazine_bot - Working with telegram api, users, DB.
-ogmudbone/price_finder_bot - grab price from web
+(BlackSatan/magazine_bot)[https://github.com/BlackSatan/magazine_bot] - Working with telegram api, users, DB.<br />
+(ogmudbone/price_finder_bot)[https://github.com/ogmudbone/price_finder_bot] - grab price from web

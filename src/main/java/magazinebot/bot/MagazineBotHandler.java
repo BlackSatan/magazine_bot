@@ -88,7 +88,7 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         Float price;
         try {
             price = finder.getPrice(url);
-            PriceTrackRequest.addRequest(url, price, message.getChatId());
+            //PriceTrackRequest.addRequest(url, price, message.getChatId());
             sendTextMessage(message.getChatId().toString(), BotResponseFormatter.showSuccessAddMessage(price, url));
         } catch (PriceFinderServiceException e) {
             e.printStackTrace();
