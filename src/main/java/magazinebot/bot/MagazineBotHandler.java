@@ -6,7 +6,6 @@ import magazinebot.exceptions.PriceFinderServiceException;
 import magazinebot.exceptions.WrongCommandFormatException;
 import magazinebot.models.PriceTrackRequest;
 import magazinebot.services.PriceFinderService;
-import org.omg.CORBA.Request;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -77,6 +76,12 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
             case LIST:
                 showMessagesList(message);
                 break;
+            case START:
+                startCommand(message);
+                break;
+            case STOP:
+                stopCommand(message);
+                break;
             default:
                 showErrorMessage(message);
                 break;
@@ -114,5 +119,12 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             System.err.print(LOGTAG);
         }
+    }
+
+    public void startCommand(Message message) {
+        sendTextMessage(message.getChatId().toString(), BotResponseFormatter.startMessage());
+    }
+    public void stopCommand(Message message) {
+        sendTextMessage(message.getChatId().toString(), BotResponseFormatter.stopMessage());
     }
 }

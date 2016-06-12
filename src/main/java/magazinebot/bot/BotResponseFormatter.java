@@ -25,5 +25,14 @@ public class BotResponseFormatter {
         return "Price on your product " + URL + " was updated, new price is" + price.toString();
     }
 
+    public static String startMessage() {
+        return "Welcome! Use '/add [url]' command to start.";
+    }
+
+
+    public static String stopMessage() {
+        return "Buy(";
+    }
+
 
 }

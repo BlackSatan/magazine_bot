@@ -3,6 +3,7 @@ Telegram bot developed by KM-43 TEAM: Bogdan Ignatyev, Bogdan Gorbatenko, Sanya 
 Bot can track prices in online shops
 ##Usage @magazine_bot - in Telegram
 /add URL - add track link<br />
+Example : /add http://www.foxtrot.com.ua/ru/shop/mfu_lazernye_samsung_sl-m2070-xev.html<br />
 /list - shows all track links
 ##About
 Consists of two parts:
