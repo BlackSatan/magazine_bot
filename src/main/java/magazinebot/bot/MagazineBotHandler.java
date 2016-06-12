@@ -6,6 +6,7 @@ import magazinebot.exceptions.PriceFinderServiceException;
 import magazinebot.exceptions.WrongCommandFormatException;
 import magazinebot.models.PriceTrackRequest;
 import magazinebot.services.PriceFinderService;
+import org.omg.CORBA.Request;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -39,9 +40,10 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         return BotConig.USERNAME;
     }
 
-    private void handleIncomingUpdate(Update update) throws InvalidObjectException {
-        if(!update.hasMessage())
-            return;
+    /**
+     * @TODO Develop inline classes for command, and CommandFactory for resolving requests
+     */
+    private CommandRequest getRequest(Update update) {
         Message message = update.getMessage();
         String command = message.getText();
         CommandRequest request;
@@ -51,11 +53,19 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         }
         catch (WrongCommandFormatException e) {
             showErrorMessage(message);
-            return;
+            return null;
         }
+        return request;
+    }
 
+    private void handleIncomingUpdate(Update update) throws InvalidObjectException {
+        CommandRequest request = getRequest(update);
+        if(request == null)
+            return;
         BotCommands currentCommand = BotCommands.valueOf(request.getCommandName().toUpperCase());
         String[] arguments = request.getArguments();
+        Message message = update.getMessage();
+
         switch (currentCommand) {
             case ADD:
                 if(request.getArgumentsCount() == 0) {
