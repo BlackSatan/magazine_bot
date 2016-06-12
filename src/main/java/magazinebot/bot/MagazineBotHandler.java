@@ -5,9 +5,7 @@ import magazinebot.bot.request.CommandRequest;
 import magazinebot.exceptions.PriceFinderServiceException;
 import magazinebot.exceptions.WrongCommandFormatException;
 import magazinebot.models.PriceTrackRequest;
-import magazinebot.services.*;
 import magazinebot.services.PriceFinderService;
-import org.apache.commons.logging.Log;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -97,7 +95,7 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         sendTextMessage(message.getChatId().toString(), COMMAND_NOT_FOUND_ERROR);
     }
 
-    private void sendTextMessage(String chatId, String text) {
+    public void sendTextMessage(String chatId, String text) {
         SendMessage sendMessageRequest = new SendMessage();
         sendMessageRequest.setText(text);
         sendMessageRequest.setChatId(chatId);

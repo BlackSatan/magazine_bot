@@ -14,4 +14,13 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+    public static void tick(String[] args) {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(new MagazineBotHandler());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 }

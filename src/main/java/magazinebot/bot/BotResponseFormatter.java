@@ -21,5 +21,9 @@ public class BotResponseFormatter {
         return "Product " + URL + " was successfully added to tracklist, current price " + price.toString();
     }
 
+    public static String showPriceUpdatedMessage(Float price, String URL) {
+        return "Price on your product " + URL + " was updated, new price is" + price.toString();
+    }
+
 
 }

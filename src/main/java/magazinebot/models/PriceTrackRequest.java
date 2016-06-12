@@ -2,7 +2,11 @@ package magazinebot.models;
 
 import org.javalite.activejdbc.Model;
 
+import java.util.List;
+
 public class PriceTrackRequest extends Model {
+
+    private static int SIX_HOURS = 60*60*6;
 
     public String getUrl() {
         return getString("url");
@@ -12,8 +16,14 @@ public class PriceTrackRequest extends Model {
         return getFloat("price");
     }
 
-    public Long getCharId() {
+    public Long getChatId() {
         return getLong("chatId");
+    }
+
+    public static List<PriceTrackRequest> getUnchecked(int limit) {
+        long unixTime = System.currentTimeMillis() / 1000L - SIX_HOURS;
+
+        return PriceTrackRequest.where("limit > " + unixTime).limit(limit);
     }
 
     public static PriceTrackRequest addRequest(String url, float price, Long chatId) {
