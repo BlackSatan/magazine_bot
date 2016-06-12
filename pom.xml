@@ -14,7 +14,20 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
+    <properties>
+        <slf4jVersion>1.6.1</slf4jVersion>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.21</version>
+        </dependency>
         <dependency>
             <groupId>com.github.rubenlagus</groupId>
             <artifactId>TelegramBots</artifactId>

@@ -16,4 +16,10 @@ public class BotResponseFormatter {
 
         return response;
     }
+
+    public static String showSuccessAddMessage(Float price, String URL) {
+        return "Product " + URL + " was successfully added to tracklist, current price " + price.toString();
+    }
+
+
 }

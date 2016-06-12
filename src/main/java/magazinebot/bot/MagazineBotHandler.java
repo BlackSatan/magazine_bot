@@ -1,24 +1,21 @@
 package magazinebot.bot;
 
-import com.sun.javafx.util.Logging;
 import magazinebot.bot.request.CommandParser;
 import magazinebot.bot.request.CommandRequest;
+import magazinebot.exceptions.PriceFinderServiceException;
 import magazinebot.exceptions.WrongCommandFormatException;
 import magazinebot.models.PriceTrackRequest;
+import magazinebot.services.*;
+import magazinebot.services.PriceFinderService;
 import org.apache.commons.logging.Log;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import pricefinder.exceptions.PriceNotFoundException;
-import pricefinder.selenium.SeleniumPriceFinder;
 
 import java.io.InvalidObjectException;
-import java.net.MalformedURLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class MagazineBotHandler extends TelegramLongPollingBot {
@@ -36,8 +33,7 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
             handleIncomingUpdate(update);
 
         } catch (Exception e) {
-            Logger log = Logger.getLogger(Logging.class.getName());
-            log.log(Level.WARNING, LOGTAG, e);
+            System.err.print("Exception while handling incoming update: " + e.toString());
         }
     }
 
@@ -59,7 +55,8 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
             showErrorMessage(message);
             return;
         }
-        BotCommands currentCommand = BotCommands.valueOf(request.getCommandName());
+
+        BotCommands currentCommand = BotCommands.valueOf(request.getCommandName().toUpperCase());
         String[] arguments = request.getArguments();
         switch (currentCommand) {
             case ADD:
@@ -67,7 +64,6 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
                     showMessagesList(message);
                     return;
                 }
-
                 addPriceTrackRequest(message, arguments[0]);
                 break;
             case LIST:
@@ -80,15 +76,13 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
     }
 
     private void addPriceTrackRequest(Message message, String url) {
-        SeleniumPriceFinder finder = new SeleniumPriceFinder();
-        String price = null;
+        PriceFinderService finder = new PriceFinderService();
+        Float price;
         try {
-            price = finder.get(url);
-            PriceTrackRequest.addRequest(url, Float.parseFloat(price), message.getChatId());
-        } catch (PriceNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (MalformedURLException e) {
+            price = finder.getPrice(url);
+            PriceTrackRequest.addRequest(url, price, message.getChatId());
+            sendTextMessage(message.getChatId().toString(), BotResponseFormatter.showSuccessAddMessage(price, url));
+        } catch (PriceFinderServiceException e) {
             e.printStackTrace();
         }
     }
@@ -110,8 +104,7 @@ public class MagazineBotHandler extends TelegramLongPollingBot {
         try {
             sendMessage(sendMessageRequest);
         } catch (TelegramApiException e) {
-            Logger log = Logger.getLogger(Logging.class.getName());
-            log.log(Level.WARNING, LOGTAG, e);
+            System.err.print(LOGTAG);
         }
     }
 }
